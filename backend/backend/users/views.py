@@ -4,20 +4,14 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from backend.settings import API_VERSION
-
-from .serializers import StudentSerializer, TeacherSerializer
+from .serializers import StudentSerializer, TeacherSerializer, LoginUserSerializer
 from .models import User
 from .permissions import IsTeacher
 
-
-
-class APIVersionView(APIView):
-    def get(self, request):
-        return Response({'version': API_VERSION})
 
 class ListStudentsView(generics.ListAPIView):
     queryset = User.objects.filter(status="student")
@@ -36,15 +30,13 @@ class RegisterTeacherView(generics.CreateAPIView):
     serializer_class = TeacherSerializer
     permission_classes = (IsAdminUser,)
 
-class LoginUserAPIView(APIView):
 
+class LoginUserAPIView(ObtainAuthToken):
     def post(self, request):
         if "username" not in request.data:
             return Response({"success": False, "msg": "Username field is null"})
-
         if "password" not in request.data:
             return Response({"success": False, "msg": "Password field is null"})
-
 
         user = authenticate(username=request.data['username'], password=request.data['password'])
         if user:
@@ -53,10 +45,11 @@ class LoginUserAPIView(APIView):
         else:
             return Response({"success": False, "msg": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
+        
 
 class LogoutUserView(APIView):
-
     permission_classes = [IsAuthenticated]
+
     def post(self, request):
         request.user.auth_token.delete()
         logout(request)
