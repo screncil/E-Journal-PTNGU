@@ -1,15 +1,11 @@
 from rest_framework import serializers
-
 from .models import User
-
-from groups.serializers import GroupSerializer
 
 
 class StudentSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'status', 'group']
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'status', 'group')
         extra_kwargs = {'password': {'write_only': True}, 'group': {'required': True}}
 
     def create(self, validated_data):
@@ -19,10 +15,9 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class TeacherSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'status']
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'status')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
