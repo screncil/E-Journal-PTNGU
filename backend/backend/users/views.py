@@ -8,7 +8,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from .serializers import StudentSerializer, TeacherSerializer, LoginUserSerializer
+from .serializers import StudentSerializer, TeacherSerializer
 from .models import User
 from .permissions import IsTeacher
 
