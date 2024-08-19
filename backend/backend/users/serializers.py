@@ -13,7 +13,6 @@ class StudentSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
-
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
