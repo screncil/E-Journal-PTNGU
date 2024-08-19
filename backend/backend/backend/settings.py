@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'users',
     'groups',
-    'grades'
+    'grades',
+    'subject'
 ]
 
 MIDDLEWARE = [
