@@ -17,6 +17,9 @@ class User(AbstractUser):
     status = models.CharField(choices=CHOICES, null=True, blank=True, max_length=20)
     group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
     @property
     def is_teacher(self):
         return self.status == "teacher"
