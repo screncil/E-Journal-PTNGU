@@ -19,18 +19,14 @@ class ListGradeView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Grades.objects.filter(user=self.request.user, status="student")
+        return Grades.objects.filter(student=self.request.user, student__status="student")
 
 
 class DeleteGradeView(generics.DestroyAPIView):
+    queryset = Grades.objects.all()
     serializer_class = GradeSerializer
     permission_classes = [IsAdminUser, IsTeacher]
 
-    def get_queryset(self, grade_id=None):
-        try:
-            return Grades.objects.get(pk=grade_id)
-        except Grades.DoesNotExist:
-            return Response({"msg":"grade not found"},status=status.HTTP_404_NOT_FOUND)
 
 
 
