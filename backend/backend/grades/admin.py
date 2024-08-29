@@ -5,4 +5,4 @@ from .models import Grades
 
 @admin.register(Grades)
 class GradesAdmin(admin.ModelAdmin):
-    list_display = ('grade', 'subject', 'student')
+    list_display = ('grade', 'subject', 'student', 'date')

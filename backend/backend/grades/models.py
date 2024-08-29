@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from subject.models import Subjects
 from users.models import User
@@ -17,3 +18,4 @@ class Grades(models.Model):
         on_delete=models.CASCADE,
         limit_choices_to={'status': 'student'},
     )
+    date = models.DateField()

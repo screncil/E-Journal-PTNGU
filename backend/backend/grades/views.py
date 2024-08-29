@@ -3,14 +3,14 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 
 from .models import Grades
-from .serializers import GradeSerializer
+from .serializers import CreateGradeSerializer, GradeSerializer
 from users.permissions import IsTeacher
 
 
 
 class CreateGradeView(generics.CreateAPIView):
     queryset = Grades.objects.all()
-    serializer_class = GradeSerializer
+    serializer_class = CreateGradeSerializer
     permission_classes = [IsAdminUser, IsTeacher]
 
 
@@ -19,7 +19,7 @@ class ListGradeView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Grades.objects.filter(student=self.request.user, student__status="student")
+        return Grades.objects.filter(student__status="student")
 
 
 class DeleteGradeView(generics.DestroyAPIView):

@@ -1,10 +1,10 @@
-from rest_framework.serializers import ModelSerializer, RelatedField
+from rest_framework.serializers import ModelSerializer
 
 from .models import Grades
-from users.models import User
+from users.serializers import StudentSerializer
 
 
-class GradeSerializer(ModelSerializer):
+class CreateGradeSerializer(ModelSerializer):
     class Meta:
         model = Grades
         fields = ('id', 'grade', 'theme', 'student', 'subject')
@@ -12,3 +12,11 @@ class GradeSerializer(ModelSerializer):
 
     def create(self, validated_data):
         return Grades.objects.create(**validated_data)
+
+
+class GradeSerializer(ModelSerializer):
+    student = StudentSerializer(read_only=True)
+    class Meta:
+        model = Grades
+        fields = ('id', 'grade', 'theme', 'subject', 'student')
+        extra_kwargs = {'student': {'read_only': True}}
