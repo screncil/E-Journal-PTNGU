@@ -12,3 +12,10 @@ class ListSubjectView(ListAPIView):
     queryset = Subjects.objects.all()
     permission_classes = [IsTeacher, IsAdminUser]
     authentication_classes = [TokenAuthentication]
+
+
+class CreateSubjectView(CreateAPIView):
+    queryset = Subjects.objects.all()
+    serializer_class = SubjectSerializer
+    permission_classes = [IsTeacher, IsAdminUser]
+    authentication_classes = [TokenAuthentication]
