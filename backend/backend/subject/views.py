@@ -19,3 +19,10 @@ class CreateSubjectView(CreateAPIView):
     serializer_class = SubjectSerializer
     permission_classes = [IsTeacher, IsAdminUser]
     authentication_classes = [TokenAuthentication]
+
+
+class DeleteSubjectView(DestroyAPIView):
+    queryset = Subjects.objects.all()
+    serializer_class = SubjectSerializer
+    permission_classes = [IsTeacher, IsAdminUser]
+    authentication_classes = [TokenAuthentication]
