@@ -1,3 +1,28 @@
-from django.shortcuts import render
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAdminUser
 
-# Create your views here.
+from .models import Subjects
+from subject.serializers import SubjectSerializer
+from users.permissions import IsTeacher
+
+
+class ListSubjectView(ListAPIView):
+    serializer_class = SubjectSerializer
+    queryset = Subjects.objects.all()
+    permission_classes = [IsTeacher, IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+
+
+class CreateSubjectView(CreateAPIView):
+    queryset = Subjects.objects.all()
+    serializer_class = SubjectSerializer
+    permission_classes = [IsTeacher, IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+
+
+class DeleteSubjectView(DestroyAPIView):
+    queryset = Subjects.objects.all()
+    serializer_class = SubjectSerializer
+    permission_classes = [IsTeacher, IsAdminUser]
+    authentication_classes = [TokenAuthentication]
