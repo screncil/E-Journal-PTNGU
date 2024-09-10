@@ -1,8 +1,17 @@
 from rest_framework import serializers
 from .models import User
 
+from groups.serializers import GroupSerializer
+
 
 class StudentSerializer(serializers.ModelSerializer):
+    group = GroupSerializer(read_only=True)
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'status', 'group', 'is_staff')
+        extra_kwargs = {'password': {'write_only': True}}
+
+class RegisterStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'status', 'group')

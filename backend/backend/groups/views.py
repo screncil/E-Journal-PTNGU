@@ -1,5 +1,5 @@
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, RetrieveAPIView
 
 from .models import Group
 from .serializers import GroupSerializer
@@ -11,6 +11,13 @@ from rest_framework.permissions import IsAdminUser
 # Create your views here.
 
 class GroupListView(ListAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    permission_classes = [IsAdminUser, IsTeacher]
+    authentication_classes = (TokenAuthentication,)
+
+
+class GetGroupView(RetrieveAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [IsAdminUser, IsTeacher]

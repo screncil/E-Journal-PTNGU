@@ -8,20 +8,35 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from .serializers import StudentSerializer, TeacherSerializer
+from .serializers import RegisterStudentSerializer, TeacherSerializer, StudentSerializer
 from .models import User
 from .permissions import IsTeacher
 
 
+class UserProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+    
+    def get(self, request):
+        user = User.objects.get(id=request.user.id)
+        serializer = StudentSerializer(user, many=False)
+        return Response(serializer.data)
+
+
 class ListStudentsView(generics.ListAPIView):
-    queryset = User.objects.filter(status="student")
     serializer_class = StudentSerializer
     permission_classes = [IsTeacher]
+
+    def get_queryset(self):
+        query_set = User.objects.filter(status="student")
+        group_id = self.request.query_params.get('group_id')
+        if group_id is not None:
+            query_set = query_set.filter(group__id=group_id)
+        return query_set
 
 
 class RegisterStudentView(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = StudentSerializer
+    serializer_class = RegisterStudentSerializer
     permission_classes = (IsAdminUser,)
 
 
