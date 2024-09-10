@@ -125,7 +125,7 @@
                   active ? 'bg-blue-500 text-white' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                 ]"
-                  @click="Logout()"
+                  @click="LogoutTeacher()"
               >
                 <ArrowRightEndOnRectangleIcon
                     :active="active"
@@ -155,7 +155,8 @@ import {
   UsersIcon,
   BookOpenIcon
 } from "@heroicons/vue/16/solid/index.js";
-import axios from "axios";
+
+import { logout } from "../../api/api.js";
 
 
 export default {
@@ -181,13 +182,8 @@ export default {
     is_staff: Boolean
   },
   methods: {
-    Logout() {
-      axios
-          .post("http://localhost:8080/api/users/logout", {}, {
-            headers: {
-              Authorization: "Token " + localStorage.getItem("token")
-            }
-          })
+    LogoutTeacher() {
+      logout()
           .then(() => {
             localStorage.removeItem("token")
             location.href = "/login"
