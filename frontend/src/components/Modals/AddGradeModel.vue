@@ -102,7 +102,7 @@
                     />
                     Вкажіть дату
                   </label>
-                  <Datepicker id="datepicker" @updateData="setDate"/>
+                  <input type="date" id="date" v-model="date" @updateData="setDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-2 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
                 </div>
                 <div class="mt-3">
                   <label for="grade" class="mb-2 select-none text-sm text-gray-500 dark:text-white">Вкажіть оцінку</label>
@@ -214,7 +214,6 @@ export default {
     },
     setupGrade() {
       this.loading = true;
-      console.log(this.subject_id)
       setTimeout(() => {
         if (!Number.isInteger(this.group_id)) {
           document.getElementById("groups").classList.replace("border-gray-300","border-red-500");
@@ -226,25 +225,36 @@ export default {
         if (!Number.isInteger(this.student_id)) {
           document.getElementById("students").classList.replace("border-gray-300","border-red-500");
           this.loading = false;
-          return
+        } else {
+          document.getElementById("students").classList.replace("border-red-500","border-gray-300");
         }
 
         if (this.subject_id === null) {
           document.getElementById("subjects").classList.replace("border-gray-300","border-red-500");
           this.loading = false;
-          return
+        } else {
+          document.getElementById("subjects").classList.replace("border-red-500","border-gray-300");
         }
 
         if (!Number.isInteger(this.grade)) {
           document.getElementById("grade").classList.replace("border-gray-300","border-red-500");
           this.loading = false;
-          return
+        } else {
+          document.getElementById("grade").classList.replace("border-red-500","border-gray-300");
         }
 
         if (this.themee === '') {
           document.getElementById("theme").classList.replace("border-gray-300","border-red-500");
           this.loading = false;
-          return
+        } else {
+          document.getElementById("theme").classList.replace("border-red-500","border-gray-300");
+        }
+
+        if (this.date === '') {
+          document.getElementById("date").classList.replace("border-gray-300","border-red-500");
+          this.loading = false;
+        } else {
+          document.getElementById("date").classList.replace("border-red-500","border-gray-300");
         }
       }, 300)
       addGrade(this.grade, this.themee, this.student_id, this.subject_id, this.date)
